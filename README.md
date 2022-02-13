@@ -37,7 +37,12 @@ Git clone this project to your local
 
 ## Running Tests
 
-Tests are located in the test directory and can be run using an IDE.
+Tests are located in the test directory and can be run using an IDE or using the following:
+
+```bash
+  cd url-shortener
+  mvn clean install
+```
 
 Test cases for controller:
 

@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import com.example.servingwebcontent.model.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
+
 
 @Controller
 public class URLController {
