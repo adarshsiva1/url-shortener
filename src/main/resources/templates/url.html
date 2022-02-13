@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>URL Shortener</title>
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+  <script src="/js/jquery-3.5.0.slim.min.js" integrity="sha384-/IFzzQmt1S744I+IQO4Mc1uphkxbXt1tEwjQ/qSw2p8pXWck09sLvqHmKDYYwReJ" crossorigin="anonymous"></script>
+  <script src="/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <style>
+    .space-top {
+      margin-top: 20px;
+    }
+
+    .space-top2 {
+      margin-top: 40px;
+    }
+
+    .wide-btn {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .checkbox-label {
+      cursor: pointer;
+    }
+
+  </style>
+  <script>
+    function info(title, message) {
+      $(".info-title").html(title);
+      $(".info-message").html(message);
+
+      $('#AlertModal').modal('show');
+    }
+
+    $(document).ready(function () {
+      function reposition() {
+        var modal = $(this),
+                dialog = modal.find('.modal-dialog');
+        modal.css('display', 'block');
+
+        // Dividing by two centers the modal exactly, but dividing by three
+        // or four works better for larger screens.
+        dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+      }
+
+      // Reposition when a modal is shown
+      $('.modal').on('show.bs.modal', reposition);
+      // Reposition when the window is resized
+      $(window).on('resize', function () {
+        $('.modal:visible').each(reposition);
+      });
+
+      $("form").submit(function (e) {
+        const inputURL = $("#inputURL");
+        const val = inputURL[0].value;
+        console.log(val.indexOf("http://"));
+        if ((val.indexOf("http://") !== 0) && (val.indexOf("https://") !== 0)) {
+          console.log('it is not formatted correctly');
+          e.preventDefault();
+          info("Invalid URL!", "URL must be prefixed with either http:// or https://");
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+<div class="container space-top2">
+  <h2 class="alert-heading">URL Shortener</h2>
+  <hr>
+
+  <p class="mb-0 space-top2"><b>Specify URL to shorten prefixed with http or https:</b></p>
+
+  <form action="#" method="post" th:action="@{urlshortener}">
+    <ul class="list-group space-top">
+      <li class="list-group-item">
+        <label class="checkbox-label">
+          URL: <input type="text" id="inputURL" style="width:400px; margin-right:20px" th:name="inputURL" th:text="*{inputURL}">
+        </label>
+      </li>
+    </ul>
+
+    <div class="space-top2">
+      <button id="btnSubmit" type="submit" class="btn btn-success wide-btn">Submit</button>
+    </div>
+  </form>
+
+  <!-- Alert Modal -->
+  <div class="modal" id="AlertModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title info-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="info-message"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
